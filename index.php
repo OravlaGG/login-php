@@ -1,5 +1,5 @@
 <?php
-  session_start();
+  session_start();//hay que hacer que sea segura
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +38,7 @@
         </div>
 
         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-          <form style="width: 23rem;" action="autentication.php" method="post">
+          <form style="width: 23rem;" action="autenticacion.php" method="post">
             <?php
               if (isset($_SESSION['error']))
               {
@@ -53,12 +53,12 @@
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
 
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="text" id="form2Example18" class="form-control form-control-lg" />
-              <label class="form-label" for="form2Example18">Usuario</label>
+              <input  name="identi" type="text" id="identi" class="form-control form-control-lg" />
+              <label class="form-label" for="identi">Usuario</label>
             </div>
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" id="form2Example28" class="form-control form-control-lg" />
-              <label class="form-label" for="form2Example28">Password</label>
+              <input name="pass" type="password" id="pass" class="form-control form-control-lg" />
+              <label class="form-label" for="pass">Password</label>
             </div>
             <div class="pt-1 mb-4">
               <button type="submit" class="btn btn-info btn-lg btn-block" type="button">Login</button>
