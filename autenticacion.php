@@ -36,8 +36,23 @@
         }
         else //El usuario si existe
         {
-            $_SESSION['error'] = "Usuario encontrado";
-            header('Location:./index.php');
+            $row = mysqli_fetch_object($resultado);//Trata la fila como un Objeto
+            //El objeto $row es de la clase StdClass
+
+            if ($row->password == $password)//Se comprueba la contraseña
+            {
+                $_SESSION['nombre'] = $row->nombre;
+                $_SESSION['apellidos'] = $row->apellidos;
+                header('Location:./inicio.php');
+            }
+            else//Contraseña Erronea
+            {
+                $_SESSION['error'] = "Contraseña Incorrecta";
+                header('Location:./index.php');
+            }
+            
+            $mysqli->close();
+
         }
     }
     else
