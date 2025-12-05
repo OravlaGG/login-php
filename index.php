@@ -1,5 +1,5 @@
 <?php
-  session_start();//hay que hacer que sea segura
+  include "establecer-sesion.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +48,6 @@
                 //$_SESSION['error'] = "";
                 unset($_SESSION['error']);//Desaparece la key y la variable
               }
-
             ?>
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
 
@@ -61,6 +60,7 @@
               <label class="form-label" for="pass">Password</label>
             </div>
             <div class="pt-1 mb-4">
+              <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
               <button type="submit" class="btn btn-info btn-lg btn-block" type="button">Login</button>
             </div>
 
