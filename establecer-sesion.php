@@ -26,3 +26,11 @@
         // Actualiza el timestamp para el próximo intervalo
         $_SESSION['last_regeneration'] = time();
     }
+    if (empty($_SESSION['csrf_token'])) 
+    {
+                // Creación de un CSRF Token
+        $csrf_token = bin2hex(openssl_random_pseudo_bytes(64));
+
+        // Resguardo del CSRF Token en una sesión
+        $_SESSION['csrf_token'] = $csrf_token;
+    }
