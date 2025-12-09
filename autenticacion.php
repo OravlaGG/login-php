@@ -12,8 +12,8 @@
             if (isset($_POST['identi']))
             {
                 $host = 'localhost';
-                $usuario = 'root';  //inseguro ***
-                $password = '';     //inseguro ***
+                $usuario = 'login-php';  //inseguro ***
+                $password = '1234';     //inseguro ***
                 $baseDatos = 'login-php';
 
                 $mysqli = new mysqli($host, $usuario, $password, $baseDatos);
