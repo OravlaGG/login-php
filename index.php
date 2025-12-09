@@ -67,7 +67,7 @@
               <div id="passHelp" class="form-text text-danger"></div>
             </div>
             <div class="pt-1 mb-4">
-              <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+              <input type="hidden" id="csrf_token" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
               <button type="submit" class="btn btn-info btn-lg btn-block" type="button">Login</button>
             </div>
 
