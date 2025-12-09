@@ -23,6 +23,10 @@
                 height: 100%;
                 }
             }
+        .form-text
+        {
+            visibility: hidden;
+        }
     </style>
 </head>
 
@@ -38,7 +42,7 @@
         </div>
 
         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-          <form style="width: 23rem;" action="autenticacion.php" method="post">
+          <form style="width: 23rem;" id="formT" action="autenticacion.php" method="post">
             <?php
               if (isset($_SESSION['error']))
               {
@@ -54,10 +58,13 @@
             <div data-mdb-input-init class="form-outline mb-4">
               <input  name="identi" type="text" id="identi" class="form-control form-control-lg" />
               <label class="form-label" for="identi">Usuario</label>
+              <div id="identiHelp" class="form-text text-danger"></div>
+
             </div>
             <div data-mdb-input-init class="form-outline mb-4">
               <input name="pass" type="password" id="pass" class="form-control form-control-lg" />
               <label class="form-label" for="pass">Password</label>
+              <div id="passHelp" class="form-text text-danger"></div>
             </div>
             <div class="pt-1 mb-4">
               <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
