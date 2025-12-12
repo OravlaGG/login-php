@@ -11,6 +11,16 @@
             // Realizar la acción deseada 
             if (isset($_POST['identi']))
             {
+                if (!isset($_SERVER['intentos']))
+                {
+                    $_SERVER['intentos'] = 0;
+                }
+                if($_SERVER['intentos'] >= 5)
+                {
+                    $_SESSION['error'] = "Numero de Intentos fallidos sobrepasados";
+                    header('Location:./index.php');
+                }
+                /*
                 $host = 'localhost';
                 $usuario = 'login-php';  //inseguro ***
                 $password = '1234';     //inseguro ***
@@ -21,41 +31,71 @@
                 if ($mysqli->connect_error)
                 {
                 //die('Error de conexión: ' .$mysqli->connect_error);
-                $_SESSION['error'] = "No se h podido comprobar usuario en este momento. Vuelve a intentarlo más tarde";
+                $_SESSION['error'] = "No se ha podido comprobar usuario en este momento. Vuelve a intentarlo más tarde";
                 header('Location:./index.php');
+                }*/
+                $servidor = 'mysql:host=localhost;dbname=login-php';
+                $usuario = 'login-php';
+                $password = '1234';
+                try 
+                {
+                    $pdo = new PDO($servidor, $usuario, $password);
+                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    echo "Conexión OK con PDO"; // o lo que sea pertinente hacer aquí
+                } 
+                catch (PDOException $e) 
+                {
+                    $_SESSION['error'] = "No se ha podido comprobar usuario en este momento. Vuelve a intentarlo más tarde";
+                    header('Location:./index.php');                
                 }
 
                 // habria que comprobar si hubo un intento de XSS y
                 // contestar con un mensaje de error reprobatorio
-                $usuario = htmlspecialchars($_POST['identi']);
+                /*
+                $usuario = htmlspecialchars($_POST['identi']);*/
                 $password = htmlspecialchars($_POST['pass']);
-
                 // nos queda: hacer la query
                 // redireccionar a index si no está o la contraseña erronea
                 // rediccionar a inicio.php si todo es correcto
-
+                /*
                 $querySQL = "SELECT * FROM usuarios where idusuario = '". $usuario ."'";
                 $resultado = $mysqli->query($querySQL);
-
+                */
+                $idusuario = $_POST['idusuario'];
+                $comando = $pdo->prepare("SELECT * FROM usuarios WHERE idusuario = :idusuario ");
+                $comando->bindParam(':idusuario', $idusuario);
+                $comando->execute();
+                /*
                 if ($resultado->num_rows == 0) //El usuario no existe
                 {
                     $_SESSION['error'] = "Usuario incorrecto";
+                    $_SESSION['intentos']++;
+                    header('Location:./index.php');
+                }*/
+                if ($comando->rowCount() == 0)
+                {
+                    $_SESSION['error'] = "Usuario incorrecto";
+                    $_SESSION['intentos']++;
                     header('Location:./index.php');
                 }
                 else //El usuario si existe
                 {
-                    $row = mysqli_fetch_object($resultado);//Trata la fila como un Objeto
+                    //$row = mysqli_fetch_object($resultado);//Trata la fila como un Objeto
                     //El objeto $row es de la clase StdClass
+                    $resultado = $comando->fetch(PDO::FETCH_ASSOC);
 
-                    if ($row->password == $password)//Se comprueba la contraseña
+
+                    if ($resultado['password'] == $password)//($row->password == $password)//Se comprueba la contraseña
                     {
-                        $_SESSION['nombre'] = $row->nombre;
-                        $_SESSION['apellidos'] = $row->apellidos;
+                        $_SESSION['nombre'] = $resultado['nombre'];
+                        $_SESSION['apellidos'] = $resultado['apellidos'];
+                        $_SESSION['intentos'] = 0;
                         header('Location:./inicio.php');
                     }
                     else//Contraseña Erronea
                     {
                         $_SESSION['error'] = "Contraseña Incorrecta";
+                        $_SESSION['intentos']++;
                         header('Location:./index.php');
                     }
                     
