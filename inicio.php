@@ -12,6 +12,6 @@
 <body>
     <h2>CRUD de la Pagina</h2>
     <p>Bienvenido, <?php echo $_SESSION['nombre'] . " " . $_SESSION['apellidos'];?></p>
-    <a class="btn btn-secondary" href="./logout.php">Log Out</button>
+    <a class="btn btn-secondary" href="./logout.php">Log Out</a>
 </body>
 </html>
